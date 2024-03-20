@@ -8,14 +8,11 @@ const fs = require('fs');
 const path = require('path');
 const currentDirectory = path.dirname(__dirname);
 const MemoryStore = require('session-memory-store')(session);
+const {login} = require('./utils/auth');
 
 const appServer = express();
 const server = http.createServer(appServer);
-const io = socketIO(server, {
-  cors: {
-    origin: '*',
-  },
-});
+
 //appServer.use(express.static(buildPath));
 appServer.use(session({
   secret: 'mt_chat_new_version',
@@ -49,6 +46,9 @@ appServer.post('/login',async(req,res,next)=>{
   const dbResult = await login(user_name, password);
   res.status(200).json({dbResult});
 });
+
+
+
 
 const port = process.env.PORT || 80;
 server.listen(port,process.env.SERVER_IP, () => {
