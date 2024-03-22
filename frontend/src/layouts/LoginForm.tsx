@@ -22,7 +22,6 @@ function LoginForm() {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const server_url = `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_SERVER_PORT || 80}`;
-    console.log(server_url);
     const handleLogin = async()=>{
       const sendRequest = axios.post(`${server_url}/login`, 
         {

@@ -2,6 +2,7 @@ const {MongoClient} = require('mongodb');
 require('dotenv').config();
 
 const connect = async ()=>{
+    console.log(process.env.MONGODB_KEY);
     try{
         const cnx = new MongoClient(`${process.env.MONGODB_KEY}`,{
             useNewUrlParser: true, useUnifiedTopology: true 
@@ -21,7 +22,7 @@ const login = async(user, password)=>{
     try{
         const dbo = dbConn.db('ALX_chatbot');
         const collection = dbo.collection('Users');
-        const user_infos = await collection.findOne({Username:user, password: password});
+        const user_infos = await collection.findOne({Username:user, Password: password});
         console.log(user_infos);
         return user_infos; 
     }catch(err){
