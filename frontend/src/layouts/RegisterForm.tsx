@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {
     FormControl,
     FormLabel,
@@ -16,20 +16,30 @@ import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 
 function RegisterForm() {
     const [show, setShow] = React.useState(false)
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [fullname, setFullname] = useState<string>('');
+    const [gender, setGender] = useState<string>('');
     const handleClick = () => setShow(!show)
+    const handleRegister = (e:any)=>{
+        e.preventDefault()
+    }
     return (
-        <FormControl isRequired w="500px" ml={5} border="1px" borderColor="#fff" borderRadius="1.5rem" p="2.5%">
+        <form className='LoginForm' onSubmit={handleRegister}>
             <FormLabel mt={5}>Fullname</FormLabel>
-            <Input variant='flushed' placeholder='Enter Fullname' />
+            <Input variant='flushed' value={fullname} required placeholder='Enter Fullname' />
             <FormLabel mt={5}>Username</FormLabel>
-            <Input variant='flushed' placeholder='Enter Username' />
+            <Input variant='flushed' value={username} required placeholder='Enter Username' />
             <FormLabel mt={5}>Email</FormLabel>
-            <Input variant='flushed' placeholder='test@alxchatbot.com' />
+            <Input variant='flushed' value={email} required placeholder='test@alxchatbot.com' />
             <FormLabel mt={8}>Password</FormLabel>
             <InputGroup size='md' >
                 <Input
                     variant='flushed'
                     pr='4.5rem'
+                    required
+                    value={password}
                     type={show ? 'text' : 'password'}
                     placeholder='Enter password'
                 />
@@ -57,7 +67,7 @@ function RegisterForm() {
             <Link href='/' color="#023e8a" display="block" mt="3%" isExternal>
                 Login <ExternalLinkIcon mx='2px' />
             </Link>
-        </FormControl>
+        </form>
     )
 }
 

@@ -29,13 +29,13 @@ code {
   background: #555;
 }
 *{
-  background-color: #000;
-  
   color: #ffffff;
+  
 }
 body {
   font-family: 'Roboto', sans-serif;
-  background: #ffffff;
+  background-color: #000;
+
   background-size: cover;
   background-position: center center;
   font-smoothing: antialiased;
@@ -51,4 +51,11 @@ body {
   justify-content: center;
   background: url(./img/bgLogo.png) repeat center ;
 
+}
+.LoginForm{
+  width: 500px;
+  margin-left: 15px;
+  border: 1px solid #fff;
+  border-radius:1.5rem;
+  padding:2.5%;
 }

@@ -44,6 +44,7 @@ appServer.post('/login',async(req,res,next)=>{
   const user_name = req.body.user_name;
   const password = req.body.password;
   const dbResult = await login(user_name, password);
+  console.log(dbResult)
   res.status(200).json({dbResult});
 });
 

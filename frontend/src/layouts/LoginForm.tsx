@@ -9,7 +9,7 @@ import {
   InputGroup,
   InputRightElement,
   Button,
-  Link
+  Link, useToast
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -17,12 +17,14 @@ import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 function LoginForm() {
+    const Toast = useToast() 
     const [show, setShow] = React.useState(false)
     const handleClick = () => setShow(!show)
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const server_url = `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_SERVER_PORT || 80}`;
-    const handleLogin = async()=>{
+    const handleLogin = async(e:any)=>{
+      e.preventDefault()
       const sendRequest = axios.post(`${server_url}/login`, 
         {
           username:  username,
@@ -30,18 +32,30 @@ function LoginForm() {
         }
       )
       if((await sendRequest).status === 200){
-        console.log("Login is valid !");
+        const userData = (await sendRequest).data.dbResult
+        console.log(userData)
+        if(userData === null){
+          Toast({
+            title: `Invalide username/password`,
+            status: 'error',
+            isClosable: true,
+            position: 'top'
+          })
+        }else{
+          console.log(userData)
+        }
       }
     }
     return (
-        <FormControl isRequired w="500px" ml={5} border="1px" borderColor="#fff" borderRadius="1.5rem" p="2.5%">
+        <form className='LoginForm' onSubmit={handleLogin}>
           <FormLabel mt={5}>Username / Email</FormLabel>
-          <Input variant='flushed' placeholder='Username or email' value={username} onChange = {(e)=>setUsername(e.target.value)} />
+          <Input variant='flushed' placeholder='Username or email' required value={username} onChange = {(e)=>setUsername(e.target.value)} />
           <FormLabel mt={8}>Password</FormLabel>
           <InputGroup size='md' >
               <Input
                   variant='flushed'
                   pr='4.5rem'
+                  required
                   type={show ? 'text' : 'password'}
                   placeholder='Enter password'
                   value={password}
@@ -58,7 +72,7 @@ function LoginForm() {
             colorScheme='Facebook'
             variant='outline'
             type='submit'
-            onClick={handleLogin}
+            
           >
             Submit
           </Button>
@@ -89,7 +103,7 @@ function LoginForm() {
               <FontAwesomeIcon icon={faGoogle} />
             </Button>
           </InputGroup>
-        </FormControl>
+        </form>
     )
 }
 
