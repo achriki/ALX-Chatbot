@@ -1,4 +1,5 @@
 import React, {useState, useCallback} from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   FormControl,
@@ -15,14 +16,17 @@ import { ExternalLinkIcon } from '@chakra-ui/icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { GoogleLogin } from '@react-oauth/google'
 
 function LoginForm() {
+    const navigate = useNavigate()
     const Toast = useToast() 
     const [show, setShow] = React.useState(false)
     const handleClick = () => setShow(!show)
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const server_url = `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_SERVER_PORT || 80}`;
+
     const handleLogin = async(e:any)=>{
       e.preventDefault()
       const sendRequest = axios.post(`${server_url}/login`, 
@@ -41,8 +45,10 @@ function LoginForm() {
             isClosable: true,
             position: 'top'
           })
+          setPassword('')
         }else{
           console.log(userData)
+          navigate(`/chat_panel/${userData._id}`)
         }
       }
     }
@@ -79,31 +85,9 @@ function LoginForm() {
           <Link href='/register' color="#023e8a" display="block" mt="3%" isExternal>
             Register for free <ExternalLinkIcon mx='2px' />
           </Link>
-          <InputGroup size='md' display='flex' alignItems='center' justifyContent='center'>
-            <Button
-              mt={6}
-              colorScheme='Facebook'
-              variant='outline'
-              type='submit'
-              fontSize="30px"
-              border='none'
-              onClick={handleLogin}
-            >
-              <FontAwesomeIcon icon={faGithub} />
-            </Button>
-            <Button
-              mt={6}
-              colorScheme='Facebook'
-              variant='outline'
-              type='submit'
-              fontSize="30px"
-              border='none'
-              onClick={handleLogin}
-            >
-              <FontAwesomeIcon icon={faGoogle} />
-            </Button>
-          </InputGroup>
+          
         </form>
+        
     )
 }
 

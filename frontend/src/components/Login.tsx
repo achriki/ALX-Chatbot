@@ -1,6 +1,7 @@
 import React from 'react'
 import { LoginForm } from '../layouts'
 import chatLogo from "../img/chatbot-logo.png"
+import ThirdPartyAuth from '../views/ThirdPartyAuth'
 function Login() {
   return (
     <div className='loginContainer'>
@@ -9,6 +10,7 @@ function Login() {
       </div>
       <div className="formSection">
         <LoginForm/>
+        <ThirdPartyAuth/>
       </div>
     </div>
   )

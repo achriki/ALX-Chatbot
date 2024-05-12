@@ -59,3 +59,54 @@ body {
   border-radius:1.5rem;
   padding:2.5%;
 }
+
+.panelContainer{
+  color: #f1f1f1;
+  background-color: #212121;
+  height: 100vh;
+  width: 100%;
+}
+
+.sideBar{
+  height: 100%;
+  background-color: #171717;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sideBar .container {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: space-around;
+}
+.sideBar .container .createSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding-left: 3%;
+  border-radius: 0.5rem;
+}
+.sideBar .container .createSection:hover{
+  background-color: #212121;
+}
+.sideBar .container .createSection .btnCreate{
+  background: none;
+  font-size: 20px;
+}
+
+.convSection .convCard{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.convSection .convCard:hover{
+  background-color: #212121;
+}

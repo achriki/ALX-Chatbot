@@ -21,12 +21,18 @@ const connect = async ()=>{
 }
 
 const login = async(user, password)=>{
+    console.log(user, password)
     const dbConn = await connect();
+    let user_infos;
     try{
         const dbo = dbConn.db('ALX_chatbot');
         const collection = dbo.collection('Users');
-        const user_infos = await collection.findOne({Username:user, Password: password});
+        user_infos = await collection.findOne({Username:user, Password: password});
         // console.log(user_infos);
+        if(!user_infos){
+            user_infos = await collection.findOne({Email:user, Password: password })
+            console.log("email login infos: ", user_infos)
+        }
         return user_infos; 
     }catch(err){
         console.log(err);
@@ -35,6 +41,47 @@ const login = async(user, password)=>{
     }
 };
 
+const signup = async(fullname, email, password, username)=>{
+    const dbConn = await connect()
+    try{
+        const dbo = dbConn.db('ALX_chatbot');
+        const collection = dbo.collection('Users');
+        const findMatch = await collection.findOne({email: email})
+        if(!findMatch){
+            const result = await collection.insertOne({fullname,username,email, password})
+            return result.insertedId
+        }else{
+            return null
+        }
+    }catch(err){
+        console.log(err)
+    }finally{
+        await dbConn.close()
+    }
+}
+
+
+const signupThird = async(fullname, email, password, username)=>{
+    const dbConn = await connect()
+    try{
+        const dbo = dbConn.db('ALX_chatbot');
+        const collection = dbo.collection('Users');
+        const findMatch = await collection.findOne({email: email})
+        if(!findMatch){
+            const result = await collection.insertOne({fullname,username,email, password})
+            return result.insertedId
+        }else{
+            return findMatch._id
+        }
+    }catch(err){
+        console.log(err)
+    }finally{
+        await dbConn.close()
+    }
+}
+
 module.exports={
     login,
+    signup,
+    signupThird
 }

@@ -1,10 +1,56 @@
-import React from 'react'
-
+import React, {useEffect, useState} from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { SideConvBar, Conversation } from '../layouts';
+import {getConversation} from '../utils/conversation'
+import { useToast } from '@chakra-ui/react';
 type Props = {}
+type conversation = {
+  user_id: string;
+  title: string;
+  _id: string;
+}
 
 function Chat_panel({}: Props) {
+  const {id} = useParams()
+  const navigate = useNavigate()
+  const toast = useToast()
+  const [convList, setConvList] = useState<conversation[]>([])
+  const [convId, setConvId] = useState<string>("")
+  console.log(id)
+  const Logout = ()=>{
+    googleLogout()
+    navigate('/')
+  }
+  const getList = async ()=>{
+    const List =  await getConversation(id)
+    console.log("List: ", List)
+    if(List.length >= 1){
+      setConvList(List)
+    }else{
+      toast({
+        title: `No conversation found please create one`,
+        status: 'error',
+        isClosable: true,
+        position: 'top'
+      })
+    }
+  }
+  const conversation_Id = (id: string)=>{
+    console.log(id)
+    setConvId(id)
+  }
+  useEffect(()=>{
+    getList()
+  },[id])
   return (
-    <div>Chat_panel</div>
+    <div className='panelContainer'>
+      <div className="container flex h-screen">
+        <div className="w-1/4 bg-white p-4 flex flex-col scroll sideBar">
+          <SideConvBar conversation_list={convList} user_id={id}  setID={conversation_Id}/>
+        </div>
+      </div>
+    </div>
   )
 }
 
