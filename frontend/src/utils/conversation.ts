@@ -37,3 +37,15 @@ export const changeConvTitle = async (newTitle: string, convId: string | undefin
         return null
     }
 }
+
+export const QAList = async (conv_id: string | undefined)=>{
+    const request = await axios.post(`${server_url}/QAList`,{
+        _id: conv_id
+    })
+
+    if(request.status === 200){
+        return request.data.QAList
+    }else{
+        return null
+    }
+}

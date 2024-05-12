@@ -77,8 +77,27 @@ const changeConvTitle = async (title, convId)=>{
     }
 }
 
+const QAList = async (convId)=>{
+    const dbConn = await connect();
+    try{
+        const dbo = dbConn.db('ALX_chatbot');
+        const collection = dbo.collection('QAs');
+        const QA_list = await collection.find({conv_id: new ObjectId(convId)}).toArray();
+        console.log(QA_list);
+        if(QA_list){
+            return QA_list; 
+        }else{
+            return null
+        }
+    }catch(err){
+        console.log(err);
+    }finally{
+        await dbConn.close();
+    }
+}
 module.exports= {
     getConversations,
     createConversation,
-    changeConvTitle
+    changeConvTitle,
+    QAList
 }

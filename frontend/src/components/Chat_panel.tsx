@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { SideConvBar, Conversation } from '../layouts';
-import {getConversation} from '../utils/conversation'
+import {QAList, getConversation} from '../utils/conversation'
 import { useToast } from '@chakra-ui/react';
 type Props = {}
 type conversation = {
@@ -11,11 +11,19 @@ type conversation = {
   _id: string;
 }
 
+type QA = {
+  conv_id: string;
+  question: string;
+  answer: string;
+  _id: string;
+}
+
 function Chat_panel({}: Props) {
   const {id} = useParams()
   const navigate = useNavigate()
   const toast = useToast()
   const [convList, setConvList] = useState<conversation[]>([])
+  const [convQA, setConvQA] = useState<QA[]>([])
   const [convId, setConvId] = useState<string>("")
   console.log(id)
   const Logout = ()=>{
@@ -36,9 +44,14 @@ function Chat_panel({}: Props) {
       })
     }
   }
-  const conversation_Id = (id: string)=>{
-    console.log(id)
+  const conversation_Id = async (id: string)=>{
     setConvId(id)
+    const getList = await QAList(id)
+    if(getList){
+      console.log(getList)
+    }else{
+      console.log('no QA Found')
+    }
   }
   useEffect(()=>{
     getList()

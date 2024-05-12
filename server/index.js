@@ -9,7 +9,7 @@ const path = require('path');
 const currentDirectory = path.dirname(__dirname);
 const MemoryStore = require('session-memory-store')(session);
 const {login, signup, signupThird} = require('./utils/auth');
-const {getConversations, createConversation, changeConvTitle} = require('./utils/conversation');
+const {getConversations, createConversation, changeConvTitle, QAList} = require('./utils/conversation');
 const appServer = express();
 const server = http.createServer(appServer);
 
@@ -102,6 +102,19 @@ appServer.post('/changeTitle', async(req, res, next)=>{
     res.status(200).json({conversation_id: convId})
   }else {
     res.status(500).json({message: "Error"})
+  }
+})
+
+
+//Get QA List
+appServer.post('/QAList', async(req, res, next)=>{
+  const conv_id = req.body._id
+  console.log(conv_id)
+  const objQAs = await QAList(conv_id)
+  if(objQAs){
+    res.status(200).json({QAList: objQAs})
+  }else{
+    res.status(500).json({QAList: null})
   }
 })
 
