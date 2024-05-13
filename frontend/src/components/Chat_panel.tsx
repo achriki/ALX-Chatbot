@@ -48,9 +48,7 @@ function Chat_panel({}: Props) {
     setConvId(id)
     const getList = await QAList(id)
     if(getList){
-      console.log(getList)
-    }else{
-      console.log('no QA Found')
+      setConvQA(getList)
     }
   }
   useEffect(()=>{
@@ -61,6 +59,9 @@ function Chat_panel({}: Props) {
       <div className="container flex h-screen">
         <div className="w-1/4 bg-white p-4 flex flex-col scroll sideBar">
           <SideConvBar conversation_list={convList} user_id={id}  setID={conversation_Id}/>
+        </div>
+        <div className='w-3/4 flex flex-col'>
+          <Conversation QAList={convQA}/>  
         </div>
       </div>
     </div>
