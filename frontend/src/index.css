@@ -66,7 +66,9 @@ body {
   height: 100vh;
   width: 100%;
 }
-
+.panelContainer .container{
+  width: 100%;
+}
 .sideBar{
   height: 100%;
   background-color: #171717;
@@ -87,6 +89,7 @@ body {
   cursor: pointer;
   padding-left: 3%;
   border-radius: 0.5rem;
+  margin-bottom: 20%;
 }
 .sideBar .container .createSection:hover{
   background-color: #212121;
@@ -105,8 +108,62 @@ body {
   justify-content: space-between;
   border-radius: 0.5rem;
   cursor: pointer;
+  margin: 8% 0%;
+  padding: 1% 2%;
 }
 
 .convSection .convCard:hover{
   background-color: #212121;
+}
+
+.conversationSection {
+  width: 100%;
+  height: 100%;
+}
+.conversationSection .container{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.conversationSection .container .card{
+  height: 100%;
+  width: 70%;
+} 
+.qaHeader .card {
+  padding: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.qaCore {
+  text-align: left;
+  padding: 2%;
+  margin-left: 8%;
+}
+
+.sectionHeader{
+  /* border: 1px solid teal; */
+  border-radius: 0.5rem;
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2%;
+  margin: 2%;
+}
+
+.sendQuestion{
+  position: fixed;
+  bottom: 0;
+  left: 30%;
+  margin: 3%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sendQuestion .container{
+  width: 100%;
 }

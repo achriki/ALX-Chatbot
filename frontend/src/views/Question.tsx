@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconButton, Heading } from '@chakra-ui/react'
+import { IconButton, Heading, Img} from '@chakra-ui/react'
 import { InfoIcon, } from '@chakra-ui/icons'
 type qType = {
     question: string
@@ -14,10 +14,10 @@ function Question(props: qType) {
                 variant='solid'
                 colorScheme='teal'
                 aria-label='Done'
-                fontSize='20px'
+                marginRight='2%'
                 icon={<InfoIcon />}
             />
-            <Heading as="h4" >You</Heading>
+            <Heading as="h5" fontSize="20px" >You</Heading>
             </div>
         </div>
         <div className="qaCore">

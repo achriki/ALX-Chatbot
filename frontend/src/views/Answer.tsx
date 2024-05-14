@@ -14,10 +14,10 @@ function Answer(props:aType) {
                 variant='solid'
                 colorScheme='teal'
                 aria-label='Done'
-                fontSize='20px'
+                marginRight='2%'
                 icon={<CheckIcon />}
             />
-            <Heading as="h4" >ALX Chatbot</Heading>
+            <Heading as="h5" fontSize="20px"  >ALX Chatbot</Heading>
             </div>
         </div>
         <div className="qaCore">
