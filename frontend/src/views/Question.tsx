@@ -1,9 +1,11 @@
 import React from 'react'
 import { IconButton, Heading, Img} from '@chakra-ui/react'
 import { InfoIcon, } from '@chakra-ui/icons'
+
 type qType = {
     question: string
 }
+
 function Question(props: qType) {
   return (
     <div className='qaSection'>

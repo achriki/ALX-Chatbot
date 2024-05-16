@@ -5,12 +5,14 @@ import { Heading, Image, Divider,Input,InputGroup, InputRightElement, Button, Te
 import logoImage from '../img/chatbot-logo.png'
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
+// question and answer DB type
 type QA = {
     conv_id: string;
     question: string;
     answer: string;
     _id: string;
 }
+
 type convType = {
     QAList : QA[]   
 }

@@ -22,68 +22,62 @@ function ThirdPartyAuth() {
     const default_password = process.env.REACT_APP_DEFAULT_PASSWORD
     const server_url = `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_SERVER_PORT || 80}`
     const navigate = useNavigate()
-    const googleLoginResponse = ()=>{
-        console.log("Google OAuth active")
+    const handleGoogleLogin = useGoogleLogin({
+      onSuccess: (codeResponse) => {
+          const userProfile = axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`, {
+              headers: {
+                  Authorization: `Bearer ${codeResponse.access_token}`,
+                  Accept: 'application/json'
+              }
+          }).then((res)=>{
+              const userData = res.data
+              console.log(userData)
+              const registerRequest = axios.post(`${server_url}/signupThird`, 
+              {
+                userInfos: {fullname: userData.given_name +" "+userData.family_name , username: userData.name, email: userData.email, password: default_password, image: userData.thumbnailLink}
+              }).then((res)=>{
+                  console.log(res.data.id)
+                  if(res.status === 200){
+                      navigate(`/chat_panel/${res.data.id}`)
+                  }
+              }).catch((err)=> console.log(err))
+          }).catch((err)=>console.log(err))
+      },
+      onError: (error)=>{
+          console.log('Login Failed: ', error)
       }
-      
-      const googleLoginErrorMessage = ()=>{
-        console.log("Something went wrong with google auth")
-      }
-      const handleGoogleLogin = useGoogleLogin({
-            onSuccess: (codeResponse) => {
-                const userProfile = axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`, {
-                    headers: {
-                        Authorization: `Bearer ${codeResponse.access_token}`,
-                        Accept: 'application/json'
-                    }
-                }).then((res)=>{
-                    const userData = res.data
-                    console.log(userData)
-                    const registerRequest = axios.post(`${server_url}/signupThird`, 
-                    {
-                      userInfos: {fullname: userData.given_name +" "+userData.family_name , username: userData.name, email: userData.email, password: default_password}
-                    }).then((res)=>{
-                        console.log(res.data.id)
-                        if(res.status === 200){
-                            navigate(`/chat_panel/${res.data.id}`)
-                        }
-                    }).catch((err)=> console.log(err))
-                }).catch((err)=>console.log(err))
-            },
-            onError: (error)=>{
-                console.log('Login Failed: ', error)
-            }
-        })
-  return (
-    <div>
-        <InputGroup size='md' display='flex' alignItems='center' justifyContent='center'>
-            <Button
-              mt={6}
-              colorScheme='Facebook'
-              variant='outline'
-              type='submit'
-              fontSize="30px"
-              border='none'
-              onClick={()=>{}}
-            >
-              <FontAwesomeIcon icon={faGithub} />
-            </Button>
-            <Button
-              mt={6}
-              colorScheme='Facebook'
-              variant='outline'
-              type='submit'
-              fontSize="30px"
-              border='none'
-              onClick={()=>{handleGoogleLogin()}}
-            >
-              <FontAwesomeIcon icon={faGoogle} />
-            </Button>
-          {/* <GoogleLogin onSuccess={googleLoginResponse} onError={googleLoginErrorMessage} /> */}
+    })
 
-          </InputGroup>
-    </div>
-  )
+    return (
+      <div>
+          <InputGroup size='md' display='flex' alignItems='center' justifyContent='center'>
+              <Button
+                mt={6}
+                colorScheme='Facebook'
+                variant='outline'
+                type='submit'
+                fontSize="30px"
+                border='none'
+                onClick={()=>{}}
+              >
+                <FontAwesomeIcon icon={faGithub} />
+              </Button>
+              <Button
+                mt={6}
+                colorScheme='Facebook'
+                variant='outline'
+                type='submit'
+                fontSize="30px"
+                border='none'
+                onClick={()=>{handleGoogleLogin()}}
+              >
+                <FontAwesomeIcon icon={faGoogle} />
+              </Button>
+            {/* <GoogleLogin onSuccess={googleLoginResponse} onError={googleLoginErrorMessage} /> */}
+
+            </InputGroup>
+      </div>
+    )
 }
 
 export default ThirdPartyAuth

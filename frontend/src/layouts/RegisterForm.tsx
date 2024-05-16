@@ -30,10 +30,6 @@ function RegisterForm() {
     const handleUsername = (e:any)=>{setUsername(e.target.value)}
     const handlePassword = (e:any)=>{setPassword(e.target.value)}
     const handleEmail = (e:any)=>{setEmail(e.target.value)}
-    // const handleRadio = (event:any)=>{
-    //     setGender(event.target.value)
-    // }
-    
 
     const handleRegister = async (e:any)=>{
 

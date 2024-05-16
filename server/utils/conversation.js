@@ -1,5 +1,7 @@
 const {MongoClient, ServerApiVersion, ObjectId} = require('mongodb');
 require('dotenv').config();
+
+// Connect to the db
 const connect = async ()=>{
     console.log(process.env.MONGODB_KEY);
     try{
@@ -19,6 +21,7 @@ const connect = async ()=>{
     }
 }
 
+// get all the conversations for a specific user 
 const getConversations = async(id)=>{
     const dbConn = await connect();
     try{
@@ -38,6 +41,7 @@ const getConversations = async(id)=>{
     }
 }
 
+// Create a new conversation
 const createConversation = async (title, userId)=>{
     const dbConn = await connect();
     try{
@@ -57,6 +61,10 @@ const createConversation = async (title, userId)=>{
     }
 }
 
+// This function changes the conversation title 
+// params: 
+//     title --> the new title
+//     convId --> the conversation id
 const changeConvTitle = async (title, convId)=>{
     const dbConn = await connect();
     try{
@@ -77,6 +85,10 @@ const changeConvTitle = async (title, convId)=>{
     }
 }
 
+// Get all the question related to a conversation  
+// params: 
+//     convId --> the conversation id
+// return: an array of Q&A objects 
 const QAList = async (convId)=>{
     const dbConn = await connect();
     try{
@@ -95,6 +107,8 @@ const QAList = async (convId)=>{
         await dbConn.close();
     }
 }
+
+//Export functions
 module.exports= {
     getConversations,
     createConversation,

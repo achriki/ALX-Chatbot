@@ -1,8 +1,9 @@
+// Import Mongodb functions
 const {MongoClient, ServerApiVersion} = require('mongodb');
 require('dotenv').config();
 
+// Connect to the database
 const connect = async ()=>{
-    console.log(process.env.MONGODB_KEY);
     try{
         const cnx = new MongoClient(`${process.env.MONGODB_KEY}`,{
             serverApi: {
@@ -20,6 +21,7 @@ const connect = async ()=>{
     }
 }
 
+// Login function 
 const login = async(user, password)=>{
     console.log(user, password)
     const dbConn = await connect();
@@ -41,6 +43,8 @@ const login = async(user, password)=>{
     }
 };
 
+
+// Register Function
 const signup = async(fullname, email, password, username)=>{
     const dbConn = await connect()
     try{
@@ -60,14 +64,17 @@ const signup = async(fullname, email, password, username)=>{
     }
 }
 
-
+// Google Authentication
+// the function params are retrieved from google OAuth application "Find more on the frontend side"
 const signupThird = async(fullname, email, password, username)=>{
     const dbConn = await connect()
     try{
         const dbo = dbConn.db('ALX_chatbot');
         const collection = dbo.collection('Users');
         const findMatch = await collection.findOne({email: email})
+        // Check the user is already registered
         if(!findMatch){
+            //Insert google account information 
             const result = await collection.insertOne({fullname,username,email, password})
             return result.insertedId
         }else{
@@ -80,6 +87,7 @@ const signupThird = async(fullname, email, password, username)=>{
     }
 }
 
+//Export functions
 module.exports={
     login,
     signup,

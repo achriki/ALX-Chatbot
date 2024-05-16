@@ -17,15 +17,14 @@ type convType = {
 }
 function CreateConv(props: convType) {
     const { isOpen, onOpen, onClose } = useDisclosure()
-
     const initialRef = useRef(null)
     const finalRef = useRef(null)
     const [title, setTitle] = useState<string>("")
     const changeTitle = (e:any)=>{setTitle(e.target.value)}
     const toast =  useToast()
+
     const createConv = async (e:any)=>{
         e.preventDefault()
-        console.log(title)
         const conv_id = await createConversation(title, props.id)
         if(conv_id){
             props.setId(conv_id)
@@ -40,6 +39,7 @@ function CreateConv(props: convType) {
         }
         setTitle('')
     }
+
     return (
       <>
         <div className="createSection" onClick={onOpen}>

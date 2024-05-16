@@ -99,6 +99,10 @@ body {
   font-size: 20px;
 }
 
+.convSection{
+  width: 100%;
+}
+
 .convSection .convCard{
   width: 100%;
   height: 100%;
@@ -166,4 +170,10 @@ body {
 }
 .sendQuestion .container{
   width: 100%;
+}
+
+.settingBtn span{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }

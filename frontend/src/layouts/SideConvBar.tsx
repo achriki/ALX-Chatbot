@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, createContext, useContext} from 'react'
 import {
     Modal,
     ModalOverlay,
@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import { CheckIcon, CloseIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons'
 import CreateConv from '../views/CreateConv'
+import UserMenu from '../views/UserMenu'
 import { changeConvTitle } from '../utils/conversation'
 
 type conversation = {
@@ -17,11 +18,20 @@ type conversation = {
     title: string;
     _id: string;
 }
+
+type userInfos = {
+    imgUrl: string | undefined;
+    username: string;
+    email: string;
+}
+
 type sideBarType = {
     conversation_list: conversation[];
     user_id: string | undefined;
-    setID: Function
+    setID: Function;
+    user_info: userInfos | undefined
 }
+
 type EditableType = {
     _id: string | undefined;
     title: string
@@ -39,11 +49,15 @@ function SideConvBar(props: sideBarType) {
         const initialRef = useRef(null)
         const finalRef = useRef(null)
         const [title, setTtile] = useState<string>(props.title || '')
+
+        //Update title value
         const changeValue = (e:any)=>{
             setTtile(e.target.value)
         }
+
+        // Submit the modification
+        // for more details check the utils files
         const changeTitle = async (e:any) =>{
-            
             e.preventDefault()
             const sendTitle = await changeConvTitle(title, props._id)
             console.log("sendTitle")
@@ -137,7 +151,7 @@ function SideConvBar(props: sideBarType) {
                     )
                 } 
             </div>
-            
+            <UserMenu imgUrl={props?.user_info?.imgUrl } email={props?.user_info?.email} username={props?.user_info?.username} />
         </div>
     )
 }
